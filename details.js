@@ -13,7 +13,7 @@ const projectsData = {
             'Real-time data processing and analytics'
         ],
         techStack: ['Python', 'Node.js', 'React', 'LangChain', 'OpenAI API'],
-        liveLink: null,
+        liveLink: 'https://aeroxai.vercel.app/',
         githubLink: 'https://github.com/vishaldeveloper224/aerox-ai.git',
         imageUrls: ['assets/aerox imaje 1.png', 'assets/aerox imaje 2.png', 'assets/aerox imaje 3.png', 'assets/aerox imaje 4.png'],
         imageSvg: '<circle cx="200" cy="125" r="50" fill="var(--accent)" opacity="0.1"/>'
@@ -51,7 +51,7 @@ const projectsData = {
             'Advanced search and filtering capabilities'
         ],
         techStack: ['Vue.js', 'Express', 'MongoDB', 'AWS S3', 'TailwindCSS'],
-        liveLink: null,
+        liveLink: 'https://digimarket-blush.vercel.app/',
         githubLink: 'https://github.com/vishaldeveloper224/digital-marketplace.git',
         imageUrls: ['assets/digi 1.png', 'assets/digi 2.png', 'assets/digi 3.png', 'assets/digi 4.png', 'assets/digi 5.png', 'assets/digi 6.png'],
         imageSvg: '<rect x="150" y="75" width="100" height="100" rx="10" fill="var(--accent)" opacity="0.1"/>'
