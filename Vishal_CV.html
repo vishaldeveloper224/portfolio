@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vishal - Resume / CV</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #334155;
+            --accent: #6366f1;
+            --accent-light: #e0e7ff;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 2rem;
+            background-image: radial-gradient(circle at 10% 20%, rgb(239, 246, 255) 0%, rgb(219, 228, 255) 100%);
+        }
+
+        .cv-container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1), 0 10px 15px -5px rgba(0,0,0,0.05);
+            border-radius: 16px;
+            position: relative;
+            display: flex;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .download-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.4);
+            z-index: 10;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px -2px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 32%;
+            background-color: var(--primary);
+            color: white;
+            padding: 3rem 2rem;
+        }
+
+        .sidebar h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .sidebar h2 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #94a3b8;
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-list {
+            list-style: none;
+            margin-bottom: 3rem;
+        }
+
+        .contact-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .contact-list li i {
+            color: var(--accent);
+            font-size: 1.2rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .contact-list a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .contact-list a:hover {
+            color: white;
+        }
+
+        .sidebar-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            color: white;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .skills-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .skills-group h4 {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            width: 68%;
+            padding: 3rem 4rem 3rem 3rem;
+            background: var(--bg-card);
+        }
+
+        section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .section-title i {
+            color: var(--accent);
+        }
+        
+        .section-title::after {
+            content: '';
+            height: 2px;
+            flex: 1;
+            background: var(--border);
+            margin-left: 1rem;
+        }
+
+        .summary {
+            font-size: 1rem;
+            color: var(--secondary);
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .project {
+            margin-bottom: 2rem;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            border-color: var(--accent-light);
+        }
+        
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .project-tech-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        
+        .tech-badge {
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        .project-desc {
+            color: var(--secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .project-features {
+            list-style-type: none;
+        }
+
+        .project-features li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .project-features li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .project-features li strong {
+            color: var(--secondary);
+        }
+
+        .experience-list {
+            list-style-type: none;
+        }
+
+        .experience-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+            color: var(--secondary);
+        }
+
+        .experience-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            .cv-container {
+                flex-direction: column;
+            }
+            .sidebar, .main-content {
+                width: 100%;
+                padding: 2rem;
+            }
+        }
+
+        /* Print Media Query */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .cv-container {
+                box-shadow: none;
+                border: none;
+                max-width: 100%;
+                border-radius: 0;
+            }
+            .download-btn {
+                display: none;
+            }
+            .sidebar {
+                padding: 2rem;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .main-content {
+                padding: 2rem;
+            }
+            .project {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cv-container">
+        <a href="#" class="download-btn" onclick="window.print(); return false;">
+            <i class="fa-solid fa-print"></i> Print / Save PDF
+        </a>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h1>Vishal</h1>
+            <h2>Creative Developer & Designer</h2>
+            
+            <ul class="contact-list">
+                <li><i class="fa-solid fa-envelope"></i> <a href="mailto:vishalsaini224500@gmail.com">vishalsaini224500@gmail.com</a></li>
+                <li><i class="fa-solid fa-phone"></i> +91 7027735320</li>
+                <li><i class="fa-solid fa-location-dot"></i> Haryana, India</li>
+                <li><i class="fa-brands fa-github"></i> <a href="https://github.com/vishaldeveloper224">vishaldeveloper224</a></li>
+            </ul>
+
+            <h3 class="sidebar-section-title">Technical Skills</h3>
+            
+            <div class="skills-group">
+                <h4>Frontend Development</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">HTML5 / CSS3</span>
+                    <span class="skill-tag">JavaScript (ES6+)</span>
+                    <span class="skill-tag">React.js</span>
+                    <span class="skill-tag">Next.js</span>
+                    <span class="skill-tag">Vue.js</span>
+                    <span class="skill-tag">TailwindCSS</span>
+                    <span class="skill-tag">SASS</span>
+                </div>
+            </div>
+            
+            <div class="skills-group">
+                <h4>Backend Engineering</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Express</span>
+                    <span class="skill-tag">RESTful APIs</span>
+                    <span class="skill-tag">GraphQL</span>
+                    <span class="skill-tag">Python</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h4>Databases</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">MongoDB</span>
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">Firebase</span>
+                </div>
+            </div>
+
+            <div class="skills-group">
+                <h4>Tools & Methodologies</h4>
+                <div class="skill-tags">
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">Figma UI/UX</span>
+                    <span class="skill-tag">AWS S3</span>
+                    <span class="skill-tag">SEO</span>
+                    <span class="skill-tag">LangChain</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section>
+                <h3 class="section-title"><i class="fa-solid fa-user"></i> Professional Summary</h3>
+                <p class="summary">
+                    A highly skilled Creative Developer and Designer with over 3 years of experience building scalable, real-world web applications. Proven track record of combining modern design aesthetics with functional brilliance. Passionate about creating responsive, fast, and secure digital products with clean and maintainable code. Successfully delivered 4+ major projects with a 100% success rate, ensuring high client satisfaction.
+                </p>
+            </section>
+
+            <section>
+                <h3 class="section-title"><i class="fa-solid fa-laptop-code"></i> Key Projects</h3>
+                
+                <div class="project">
+                    <div class="project-header">
+                        <div class="project-title">Aerox AI</div>
+                        <div class="project-tech-badges">
+                            <span class="tech-badge">Python</span>
+                            <span class="tech-badge">Node.js</span>
+                            <span class="tech-badge">React</span>
+                            <span class="tech-badge">LangChain</span>
+                        </div>
+                    </div>
+                    <p class="project-desc">An intelligent AI agent capable of automating complex workflows and providing smart assistance.</p>
+                    <ul class="project-features">
+                        <li>Developed an autonomous task execution and orchestration system.</li>
+                        <li>Built a context-aware conversational interface for seamless human-computer interaction.</li>
+                        <li>Integrated third-party APIs for extended functionality and real-time data processing.</li>
+                        <li><strong>Why I Built It:</strong> To automate complex workflows and reduce manual effort in multi-step business processes.</li>
+                        <li><strong>How I Built It:</strong> Leveraged LangChain and OpenAI API for logic orchestration, built the backend in Node.js & Python, and created a responsive React interface.</li>
+                    </ul>
+                </div>
+
+                <div class="project">
+                    <div class="project-header">
+                        <div class="project-title">Indora Pay</div>
+                        <div class="project-tech-badges">
+                            <span class="tech-badge">React</span>
+                            <span class="tech-badge">Next.js</span>
+                            <span class="tech-badge">Node.js</span>
+                            <span class="tech-badge">PostgreSQL</span>
+                        </div>
+                    </div>
+                    <p class="project-desc">A secure and seamless payment solution platform tailored for modern businesses.</p>
+                    <ul class="project-features">
+                        <li>Implemented end-to-end encrypted payment processing with high security standards.</li>
+                        <li>Designed a real-time merchant dashboard for multi-currency financial analytics.</li>
+                        <li>Developed a developer-friendly REST API for custom client integrations.</li>
+                        <li><strong>Why I Built It:</strong> To provide a highly secure and trustworthy payment solution tailored for modern businesses needing global compliance.</li>
+                        <li><strong>How I Built It:</strong> Integrated Stripe API for transactions, used PostgreSQL for reliable data storage, and built the platform using React and Next.js for high performance.</li>
+                    </ul>
+                </div>
+
+                <div class="project">
+                    <div class="project-header">
+                        <div class="project-title">Digital Marketplace</div>
+                        <div class="project-tech-badges">
+                            <span class="tech-badge">Vue.js</span>
+                            <span class="tech-badge">Express</span>
+                            <span class="tech-badge">MongoDB</span>
+                            <span class="tech-badge">AWS S3</span>
+                        </div>
+                    </div>
+                    <p class="project-desc">A comprehensive web platform dedicated to buying and selling digital assets seamlessly.</p>
+                    <ul class="project-features">
+                        <li>Created an instant digital product delivery system with secure and scalable file hosting.</li>
+                        <li>Built creator dashboards for tracking sales and managing products.</li>
+                        <li>Integrated advanced search and filtering capabilities for an optimized user experience.</li>
+                        <li><strong>Why I Built It:</strong> To bridge the gap between creators and buyers with a frictionless environment for seamless digital asset delivery.</li>
+                        <li><strong>How I Built It:</strong> Developed using Vue.js for a reactive UI, Express & MongoDB for scalable data management, and AWS S3 for secure file hosting.</li>
+                    </ul>
+                </div>
+
+                <div class="project">
+                    <div class="project-header">
+                        <div class="project-title">Show Plus</div>
+                        <div class="project-tech-badges">
+                            <span class="tech-badge">React Native</span>
+                            <span class="tech-badge">Firebase</span>
+                            <span class="tech-badge">Node.js</span>
+                            <span class="tech-badge">GraphQL</span>
+                        </div>
+                    </div>
+                    <p class="project-desc">A rich entertainment and mobile streaming application offering premium shows on the go.</p>
+                    <ul class="project-features">
+                        <li>Engineered a high-definition adaptive video streaming service for mobile platforms.</li>
+                        <li>Implemented offline viewing functionalities and robust download management.</li>
+                        <li>Integrated a personalized content recommendation engine with cross-device sync capabilities.</li>
+                        <li><strong>Why I Built It:</strong> To meet the growing demand for premium on-the-go entertainment with a smooth, native-like mobile experience.</li>
+                        <li><strong>How I Built It:</strong> Built natively using React Native, utilized Firebase for real-time data sync, and implemented GraphQL for optimized media fetching.</li>
+                    </ul>
+                </div>
+
+            </section>
+            
+            <section>
+                <h3 class="section-title"><i class="fa-solid fa-trophy"></i> Experience & Achievements</h3>
+                <ul class="experience-list">
+                    <li>Collaborated with over 20 clients globally to deliver tailor-made web solutions and applications.</li>
+                    <li>Consistently achieved a 100% success rate across all undertaken professional projects.</li>
+                    <li>Expertise in merging UI/UX design concepts directly into production-ready frontend code.</li>
+                </ul>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+</html>

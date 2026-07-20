@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details | Vishal</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            position: relative;
+            background-color: var(--bg-primary);
+        }
+        
+        .global-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-size: 40px 40px;
+            background-image: radial-gradient(circle at center, rgba(0,0,0,0.05) 1px, transparent 1px);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .details-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .back-nav {
+            padding-top: 140px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .details-header {
+            padding: 0 0 50px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            color: var(--text-primary);
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+        
+        .details-title {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        .details-category {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            margin-bottom: 0;
+        }
+        
+        .details-image {
+            width: 100%;
+            height: 500px;
+            border-radius: 24px;
+            background-color: var(--bg-tertiary);
+            margin-bottom: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .details-content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 5rem;
+            margin-bottom: 6rem;
+            align-items: start;
+        }
+        
+        .details-content h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .details-content h3::before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            background-color: var(--accent);
+            border-radius: 50%;
+        }
+        
+        .details-content p {
+            color: var(--text-secondary);
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 1.2rem;
+        }
+        
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid rgba(0,0,0,0.03);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        
+        .feature-list i {
+            color: white;
+            background: var(--accent);
+            padding: 6px;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            margin-top: 2px;
+            box-shadow: 0 4px 10px rgba(99,102,241,0.3);
+        }
+        
+        .details-sidebar {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: sticky;
+            top: 120px;
+        }
+        
+        .sidebar-block {
+            margin-bottom: 2.5rem;
+        }
+        
+        .sidebar-block:last-child {
+            margin-bottom: 0;
+        }
+        
+        .sidebar-block h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        
+        .tech-tag {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(0,0,0,0.03);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-tag:hover {
+            background-color: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .sidebar-links .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        
+        .sidebar-links .btn-secondary {
+            background-color: white;
+            border: 2px solid rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-links .btn-secondary:hover {
+            border-color: var(--text-primary);
+            background-color: var(--text-primary);
+            color: white;
+        }
+        
+        @media (max-width: 992px) {
+            .details-content-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .details-sidebar {
+                position: relative;
+                top: 0;
+            }
+            .details-title {
+                font-size: 3rem;
+            }
+            .details-image {
+                height: 350px;
+            }
+        }
+        @media (max-width: 768px) {
+            .details-title {
+                font-size: 2.2rem;
+            }
+            .details-header {
+                padding: 100px 0 40px;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <div class="global-grid"></div>
+
+    <header id="header" class="scrolled">
+        <div class="container nav-container">
+            <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 0.6rem;">
+                <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="50,5 90,25 90,75 50,95 10,75 10,25" fill="none" opacity="0.15"/>
+                    <polygon points="50,5 90,25 90,75 50,95 10,75 10,25" stroke="var(--text-primary)" stroke-width="8" stroke-linejoin="round"/>
+                    <path d="M30 35L50 70L70 35" stroke="var(--text-primary)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="50" cy="70" r="6" fill="var(--text-primary)"/>
+                </svg>
+                <span>Vishal</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Back to Portfolio</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="details-wrapper" style="min-height: 80vh;" id="details-container">
+        <!-- Content will be injected here via details.js -->
+        <div class="details-header">
+            <p>Loading project details...</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bottom">
+            <div class="container" style="display: flex; justify-content: center;">
+                <p>&copy; <span id="year"></span> Vishal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="details.js"></script>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
