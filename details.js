@@ -56,23 +56,99 @@ const projectsData = {
         imageUrls: ['assets/digi 1.png', 'assets/digi 2.png', 'assets/digi 3.png', 'assets/digi 4.png', 'assets/digi 5.png', 'assets/digi 6.png'],
         imageSvg: '<rect x="150" y="75" width="100" height="100" rx="10" fill="var(--accent)" opacity="0.1"/>'
     },
-    'show-plus': {
-        title: 'Show Plus',
-        category: 'Mobile Application',
+    'aerox-studio': {
+        title: 'Aerox Studio',
+        category: 'Creative Agency Web Platform',
         description: `
-            <p>Show Plus is a rich entertainment and streaming application offering premium shows on the go. Designed for high performance on mobile devices, it provides a fluid, native-like experience for users to browse, stream, and download their favorite content.</p>
-            <p>The app features dynamic content delivery, adaptive bitrate streaming, and personalized recommendations based on viewing habits.</p>
+            <p>Aerox Studio is a premium website and collaborative platform built for design-forward agencies. It presents projects using modern immersive layout grids and interactive showcases that captivate visitors.</p>
+            <p>Built with performance and responsiveness in mind, the platform delivers smooth client-side transitions and fluid scroll effects that enrich the storytelling aspect of modern creative work.</p>
         `,
         features: [
-            'High-definition adaptive video streaming',
-            'Offline viewing and download management',
-            'Personalized content recommendation engine',
-            'Cross-device sync for watch history'
+            'Fluid animations and smooth scroll effects via GSAP',
+            'Interactive case study showcases and immersive design grids',
+            'Client feedback portal and proofing workflow system',
+            'Responsive and lightning-fast asset loading pipeline'
         ],
-        techStack: ['React Native', 'Firebase', 'Node.js', 'GraphQL'],
-        liveLink: 'https://play.google.com/store/apps/details?id=com.shortdrama.in&pcampaignid=web_share',
+        techStack: ['HTML5', 'SASS', 'GSAP', 'JavaScript (ES6+)', 'Figma'],
+        liveLink: null,
         githubLink: null,
-        imageUrls: ['assets/show plus 1.png', 'assets/show plus 2.png']
+        downloadLink: 'https://drive.google.com/file/d/1ew8fVcML121bInTGHnoBCD6hnruGRnjk/view?usp=drive_link',
+        imageUrls: [
+            'assets/studio 1.png',
+            'assets/studio 2.png'
+        ]
+    },
+    'aeroshield-antivirus': {
+        title: 'Aeroshield Antivirus',
+        category: 'Cybersecurity Solution',
+        description: `
+            <p>Aeroshield Antivirus is a next-generation desktop utility designed to provide real-time protection against local and network threats. Utilizing lightweight heuristic scanning techniques, it safeguards the host system without impacting speed or performance.</p>
+            <p>The user interface is designed for simplicity, allowing non-technical users to run comprehensive threat audits and view clear reports on their system health.</p>
+        `,
+        features: [
+            'Real-time background system health monitoring',
+            'Signature and heuristic malware analysis scanner',
+            'Integrated secure sandbox for isolating untrusted apps',
+            'Network traffic logging and secure firewall dashboard'
+        ],
+        techStack: ['Electron', 'Node.js', 'C++', 'Qt Core', 'Windows API'],
+        liveLink: null,
+        githubLink: null,
+        downloadLink: 'https://drive.google.com/file/d/1LA8xuj3ZxRmfS57thweWNBbIgWKkgNps/view?usp=drive_link',
+        imageUrls: [
+            'assets/antivirus 1.png',
+            'assets/antivirus 2.png',
+            'assets/antivirus 3.png',
+            'assets/antivirus 4.png',
+            'assets/antivirus 5.png',
+            'assets/antivirus 6.png',
+            'assets/antivirus 7.png',
+            'assets/antivirus 8.png'
+        ]
+    },
+    'aerox-translator': {
+        title: 'Aerox Translator',
+        category: 'AI Translation Utility',
+        description: `
+            <p>Aerox Translator is a cross-platform application that leverages compact deep-learning translation models to perform speech and text translation. It runs efficiently on device, ensuring secure, offline translations wherever you go.</p>
+            <p>With an emphasis on accessibility, the app offers instant audio-to-text feedback and real-time optical character recognition (OCR) for document scanning.</p>
+        `,
+        features: [
+            'Localized offline translation for 50+ languages',
+            'Low-latency speech recognition and text-to-speech output',
+            'Camera and image OCR for translating physical text',
+            'Interactive conversation mode for natural communication'
+        ],
+        techStack: ['React Native', 'Python', 'PyTorch', 'FastAPI', 'SQLite'],
+        liveLink: 'https://aerox-translater.vercel.app/',
+        githubLink: null,
+        imageUrls: [
+            'assets/translator 1.png',
+            'assets/translator 2.png',
+            'assets/translator 3.png'
+        ]
+    },
+    'aerox-trade-ai': {
+        title: 'Aerox Trade AI',
+        category: 'AI Trading Platform',
+        description: `
+            <p>Aerox Trade AI is an intelligent algorithmic trading platform that analyzes live market feeds to perform automated trade execution. It utilizes machine learning models to forecast trends and evaluate risk indices.</p>
+            <p>The system features a comprehensive dashboard with real-time charting widgets and backtesting modules to validate strategies on historical data before running live campaigns.</p>
+        `,
+        features: [
+            'Real-time market data ingestion and charting dashboards',
+            'Deep reinforcement learning trading algorithms',
+            'Strategy backtester with comprehensive metrics logs',
+            'Automated risk mitigation and stop-loss execution'
+        ],
+        techStack: ['React', 'Python', 'TensorFlow', 'FastAPI', 'Pandas', 'Docker'],
+        liveLink: 'https://aerox-trade-ai.vercel.app/',
+        githubLink: null,
+        imageUrls: [
+            'assets/trade ai 1.png',
+            'assets/trade ai 2.png',
+            'assets/trade ai 3.png'
+        ]
     }
 };
 
@@ -89,6 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let linksHTML = '';
         if (project.liveLink) {
             linksHTML += `<a href="${project.liveLink}" target="_blank" class="btn btn-primary" style="margin-bottom:1rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Live Project</a>`;
+        }
+        if (project.downloadLink) {
+            linksHTML += `<a href="${project.downloadLink}" target="_blank" class="btn btn-primary" style="margin-bottom:1rem;"><i class="fa-solid fa-download"></i> Download App (.exe)</a>`;
         }
         if (project.githubLink) {
             linksHTML += `<a href="${project.githubLink}" target="_blank" class="btn btn-secondary"><i class="fa-brands fa-github"></i> View Source Code</a>`;

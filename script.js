@@ -104,18 +104,52 @@ contactForm.addEventListener('submit', (e) => {
     submitBtn.disabled = true;
     submitBtn.innerHTML = 'Transmitting Message <i class="fa-solid fa-circle-notch fa-spin"></i>';
     
-    // Mock backend latency
-    setTimeout(() => {
+    // Paste your Google Web App URL here
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzhcVHo7uEuO4igyTGSmcVP54eLFFU54RR2ZBzsBik2sCGXZ4RpyF7RR_bijmdMcYjg/exec';
+    
+    if (!scriptURL) {
+        // Fallback mock success if URL is not yet configured
+        setTimeout(() => {
+            submitBtn.style.backgroundColor = '#10b981'; // Green accent
+            submitBtn.innerHTML = 'Message Dispatched (Mock) <i class="fa-solid fa-check"></i>';
+            contactForm.reset();
+            
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.style.backgroundColor = '';
+                submitBtn.innerHTML = originalText;
+            }, 3000);
+        }, 1200);
+        return;
+    }
+
+    fetch(scriptURL, { 
+        method: 'POST', 
+        mode: 'no-cors',
+        body: new FormData(contactForm)
+    })
+    .then(response => {
         submitBtn.style.backgroundColor = '#10b981'; // Green accent
         submitBtn.innerHTML = 'Message Dispatched Successfully <i class="fa-solid fa-check"></i>';
         contactForm.reset();
         
         setTimeout(() => {
             submitBtn.disabled = false;
-            submitBtn.style.backgroundColor = 'var(--accent)';
+            submitBtn.style.backgroundColor = '';
             submitBtn.innerHTML = originalText;
         }, 3000);
-    }, 1500);
+    })
+    .catch(error => {
+        console.error('Error!', error.message);
+        submitBtn.style.backgroundColor = '#ef4444'; // Red error
+        submitBtn.innerHTML = 'Failed to Send <i class="fa-solid fa-xmark"></i>';
+        
+        setTimeout(() => {
+            submitBtn.disabled = false;
+            submitBtn.style.backgroundColor = '';
+            submitBtn.innerHTML = originalText;
+        }, 3000);
+    });
 });
 
 
