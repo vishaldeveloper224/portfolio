@@ -8,7 +8,6 @@ const navMenu = document.getElementById('nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
 const skillProgressBars = document.querySelectorAll('.skill-progress');
 const filterBtns = document.querySelectorAll('.filter-btn');
-const projectCards = document.querySelectorAll('.project-card');
 const contactForm = document.getElementById('contact-form-element');
 
 // Sticky Navigation and Scroll Highlights
@@ -75,25 +74,106 @@ const skillObserver = new IntersectionObserver((entries) => {
 
 skillProgressBars.forEach(bar => skillObserver.observe(bar));
 
-// Portfolio Engine categorization system
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+// Dynamic Project Rendering and Filtering System
+function renderProjects() {
+    const projectsSlider = document.getElementById('projects-slider');
+    if (!projectsSlider) return;
 
-        const filterValue = btn.getAttribute('data-filter');
+    const projectsObj = window.ProjectsStore ? window.ProjectsStore.getAll() : {};
+    const projects = Object.values(projectsObj);
 
-        projectCards.forEach(card => {
-            if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                card.style.display = 'flex';
-                setTimeout(() => card.style.opacity = '1', 50);
-            } else {
-                card.style.opacity = '0';
-                setTimeout(() => card.style.display = 'none', 300);
-            }
+    if (projects.length === 0) {
+        projectsSlider.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-secondary);">
+                <i class="fa-solid fa-folder-open" style="font-size: 3rem; margin-bottom: 1rem; display: block; color: var(--accent);"></i>
+                <p>No projects found. Use the Admin Panel to add some!</p>
+            </div>
+        `;
+        return;
+    }
+
+    projectsSlider.innerHTML = projects.map(project => {
+        const tagHTML = `<span class="project-tag">${project.category || 'Project'}</span>`;
+        const imgUrl = (project.imageUrls && project.imageUrls[0]) || 'assets/aerox imaje 1.png';
+        const imgHTML = `<img src="${imgUrl}" alt="${project.title}">`;
+
+        let overlayBtns = '';
+        if (project.liveLink) {
+            overlayBtns += `<a href="${project.liveLink}" target="_blank" class="project-overlay-btn"><i class="fa-solid fa-link"></i></a>`;
+        } else if (project.downloadLink) {
+            overlayBtns += `<a href="${project.downloadLink}" target="_blank" class="project-overlay-btn"><i class="fa-solid fa-download"></i></a>`;
+        }
+        if (project.githubLink) {
+            overlayBtns += `<a href="${project.githubLink}" target="_blank" class="project-overlay-btn"><i class="fa-brands fa-github"></i></a>`;
+        }
+
+        let linksHTML = '';
+        if (project.liveLink) {
+            linksHTML += `<a href="${project.liveLink}" target="_blank" class="project-link"><i class="fa-solid fa-globe"></i> Live Demo</a>`;
+        } else if (project.downloadLink) {
+            linksHTML += `<a href="${project.downloadLink}" target="_blank" class="project-link"><i class="fa-solid fa-download"></i> Download</a>`;
+        }
+        if (project.githubLink) {
+            linksHTML += `<a href="${project.githubLink}" target="_blank" class="project-link"><i class="fa-brands fa-github"></i> Codebase</a>`;
+        }
+
+        // Clean description HTML to extract plain short text
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = project.description || '';
+        const plainText = tempDiv.textContent || tempDiv.innerText || '';
+        const shortDesc = plainText.trim().substring(0, 110) + (plainText.trim().length > 110 ? '...' : '');
+
+        return `
+            <div class="project-card" data-category="${project.filter || 'web'}">
+                <div class="project-img">
+                    ${imgHTML}
+                    <div class="project-overlay">
+                        ${overlayBtns}
+                    </div>
+                </div>
+                <div class="project-info">
+                    <div class="project-tags">
+                        ${tagHTML}
+                    </div>
+                    <h3>${project.title}</h3>
+                    <p>${shortDesc}</p>
+                    <div class="project-links">
+                        ${linksHTML}
+                        <a href="project-details.html?id=${project.id}" class="project-link"
+                            style="color: var(--accent); font-weight: 700;">View Details <i
+                                class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    initFilterLogic();
+}
+
+function initFilterLogic() {
+    const cards = document.querySelectorAll('.project-card');
+    const filterBtnsList = document.querySelectorAll('.filter-btn');
+    
+    filterBtnsList.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtnsList.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filterValue = btn.getAttribute('data-filter');
+
+            cards.forEach(card => {
+                if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                    card.style.display = 'flex';
+                    setTimeout(() => card.style.opacity = '1', 50);
+                } else {
+                    card.style.opacity = '0';
+                    setTimeout(() => card.style.display = 'none', 300);
+                }
+            });
         });
     });
-});
+}
 
 // Basic validation and submission handlers for UI integrity
 contactForm.addEventListener('submit', (e) => {
@@ -152,21 +232,28 @@ contactForm.addEventListener('submit', (e) => {
     });
 });
 
-
-// Projects Slider Logic
+// Projects Slider Logic & Dynamic Load
 document.addEventListener('DOMContentLoaded', () => {
+    renderProjects();
+
     const projectsSlider = document.getElementById('projects-slider');
     const prevBtn = document.getElementById('prev-project');
     const nextBtn = document.getElementById('next-project');
 
     if(projectsSlider && prevBtn && nextBtn) {
         prevBtn.addEventListener('click', () => {
-            const cardWidth = projectsSlider.querySelector('.project-card').offsetWidth;
-            projectsSlider.scrollBy({ left: -(cardWidth + 32), behavior: 'smooth' }); // 32px is the gap
+            const firstCard = projectsSlider.querySelector('.project-card');
+            if (firstCard) {
+                const cardWidth = firstCard.offsetWidth;
+                projectsSlider.scrollBy({ left: -(cardWidth + 32), behavior: 'smooth' }); // 32px is the gap
+            }
         });
         nextBtn.addEventListener('click', () => {
-            const cardWidth = projectsSlider.querySelector('.project-card').offsetWidth;
-            projectsSlider.scrollBy({ left: (cardWidth + 32), behavior: 'smooth' });
+            const firstCard = projectsSlider.querySelector('.project-card');
+            if (firstCard) {
+                const cardWidth = firstCard.offsetWidth;
+                projectsSlider.scrollBy({ left: (cardWidth + 32), behavior: 'smooth' });
+            }
         });
     }
 });
@@ -186,4 +273,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.addEventListener('scroll', reveal);
     reveal(); // Trigger on load
+});
+
+// Secret Admin Shortcut: Press Alt + Shift + A OR type "admin" sequentially to open Admin Panel
+let typedKeys = '';
+window.addEventListener('keydown', (e) => {
+    // 1. Key Combination: Alt + Shift + A
+    if (e.altKey && e.shiftKey && e.code === 'KeyA') {
+        e.preventDefault();
+        window.location.href = 'admin.html';
+        return;
+    }
+
+    // 2. Typing sequence: "admin"
+    if (e.key && e.key.length === 1) {
+        typedKeys += e.key.toLowerCase();
+        typedKeys = typedKeys.slice(-5); // Keep last 5 chars
+        if (typedKeys === 'admin') {
+            window.location.href = 'admin.html';
+        }
+    }
 });
