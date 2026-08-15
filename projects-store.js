@@ -210,8 +210,8 @@ const ProjectsStore = {
         return {
             username: localStorage.getItem('portfolio_admin_username') || 'admin',
             password: localStorage.getItem('portfolio_admin_password') || 'adminpassword',
-            botToken: localStorage.getItem('portfolio_telegram_bot_token') || '',
-            chatId: localStorage.getItem('portfolio_telegram_chat_id') || ''
+            botToken: localStorage.getItem('portfolio_telegram_bot_token') || '8518772190:AAEfNhKYx4blq3RNDAPLUGGnNqgmg0mDHJE',
+            chatId: localStorage.getItem('portfolio_telegram_chat_id') || '5771091493'
         };
     },
 
