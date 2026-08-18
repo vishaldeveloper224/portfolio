@@ -499,11 +499,23 @@
                                     <option value="ai">AI Agent (ai)</option>
                                     <option value="web">Website (web)</option>
                                     <option value="app">App (app)</option>
+                                    <option value="software">Software Application (software)</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="proj-image">Image Filename (inside assets/) *</label>
-                                <input type="text" id="proj-image" class="form-control" placeholder="e.g. assets/aerox imaje 1.png" required>
+                            <div class="form-group" style="grid-column: span 2;">
+                                <label style="display:flex; justify-content:space-between; align-items:center;">
+                                    <span>Project Image Assets & External URLs *</span>
+                                    <span style="font-size:0.8rem; font-weight:normal; color:var(--text-secondary);">First image is always the Cover image (shown in the main grid)</span>
+                                </label>
+                                <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+                                    <input type="text" id="proj-image-input" class="form-control" placeholder="e.g. assets/aerox imaje 1.png OR https://example.com/image.jpg" style="flex:1; margin-bottom:0;">
+                                    <button type="button" class="btn btn-primary" onclick="addImagePath()" style="padding:0 1.5rem;"><i class="fa-solid fa-plus"></i> Add Link</button>
+                                    <input type="file" id="image-upload-input" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+                                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('image-upload-input').click()" style="padding:0 1rem; display:flex; align-items:center; gap:0.4rem; white-space:nowrap;"><i class="fa-solid fa-upload"></i> Upload Image</button>
+                                </div>
+                                <div id="image-list-container" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap:1rem; padding:1.2rem; background:var(--bg-secondary); border-radius:12px; border:1px solid rgba(0,0,0,0.05); min-height:100px;">
+                                    <!-- Dynamic thumbnails -->
+                                </div>
                             </div>
                         </div>
 
@@ -776,6 +788,79 @@
             }).join('');
         }
 
+        // Multi-Image Manager State and Functions
+        let currentProjectImages = [];
+
+        function renderImageManager() {
+            const container = document.getElementById('image-list-container');
+            if (!container) return;
+
+            if (currentProjectImages.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:1.5rem; color:var(--text-secondary); font-size:0.9rem;"><i class="fa-solid fa-images" style="font-size:1.8rem; margin-bottom:0.5rem; display:block;"></i>No images added. Please add at least one.</div>`;
+                return;
+            }
+
+            container.innerHTML = currentProjectImages.map((url, index) => {
+                const isCover = index === 0;
+                return `
+                    <div style="position:relative; background:white; padding:6px; border-radius:8px; border:1px solid rgba(0,0,0,0.05); box-shadow:0 2px 4px rgba(0,0,0,0.02); display:flex; flex-direction:column; align-items:center; gap:6px;">
+                        <img src="${url}" style="width:100%; height:75px; object-fit:cover; border-radius:6px; background:var(--bg-tertiary);" onerror="this.src='assets/aerox imaje 1.png';">
+                        <div style="display:flex; gap:4px; width:100%;">
+                            <button type="button" class="btn ${isCover ? 'btn-primary' : 'btn-secondary'}" style="font-size:0.75rem; padding:4px 6px; flex:1; justify-content:center;" onclick="setCoverImage(${index})">${isCover ? 'Cover' : 'Set Cover'}</button>
+                            <button type="button" class="btn" style="background:#ef4444; color:white; font-size:0.75rem; padding:4px 8px; justify-content:center;" onclick="removeImageFromProject(${index})"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addImagePath() {
+            const input = document.getElementById('proj-image-input');
+            const val = input.value.trim();
+            if (!val) return;
+
+            currentProjectImages.push(val);
+            input.value = '';
+            renderImageManager();
+        }
+
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.size > 1.5 * 1024 * 1024) {
+                showToast('Image size exceeds 1.5MB limit.', true);
+                e.target.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const base64Url = event.target.result;
+                currentProjectImages.push(base64Url);
+                renderImageManager();
+                showToast('Image uploaded successfully!');
+                e.target.value = '';
+            };
+            reader.onerror = function(err) {
+                console.error('Error reading image file:', err);
+                showToast('Failed to load image file.', true);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removeImageFromProject(index) {
+            currentProjectImages.splice(index, 1);
+            renderImageManager();
+        }
+
+        function setCoverImage(index) {
+            if (index === 0 || index >= currentProjectImages.length) return;
+            const item = currentProjectImages.splice(index, 1)[0];
+            currentProjectImages.unshift(item);
+            renderImageManager();
+        }
+
         // Populate form with existing project details for editing
         function editProject(id) {
             const proj = window.ProjectsStore.get(id);
@@ -785,7 +870,11 @@
             document.getElementById('proj-title').value = proj.title;
             document.getElementById('proj-category').value = proj.category;
             document.getElementById('proj-filter').value = proj.filter || 'web';
-            document.getElementById('proj-image').value = (proj.imageUrls && proj.imageUrls[0]) || '';
+            
+            // Load all project images
+            currentProjectImages = proj.imageUrls ? [...proj.imageUrls] : [];
+            renderImageManager();
+
             document.getElementById('proj-description').value = proj.description || '';
             document.getElementById('proj-features').value = (proj.features || []).join('\n');
             document.getElementById('proj-tech').value = (proj.techStack || []).join(', ');
@@ -801,17 +890,23 @@
         function resetForm() {
             document.getElementById('project-id-input').value = '';
             document.getElementById('project-form').reset();
+            currentProjectImages = [];
+            renderImageManager();
             document.getElementById('form-heading').textContent = 'Create Portfolio Entry';
         }
 
         // Submit handler for adding or editing a project record
         function saveProject(e) {
             e.preventDefault();
+            if (currentProjectImages.length === 0) {
+                showToast('Please add at least one project image!', true);
+                return;
+            }
+
             const id = document.getElementById('project-id-input').value;
             const title = document.getElementById('proj-title').value;
             const category = document.getElementById('proj-category').value;
             const filter = document.getElementById('proj-filter').value;
-            const imgPath = document.getElementById('proj-image').value;
             const description = document.getElementById('proj-description').value;
             const features = document.getElementById('proj-features').value.split('\n').filter(line => line.trim() !== '');
             const techStack = document.getElementById('proj-tech').value.split(',').map(tag => tag.trim()).filter(tag => tag !== '');
@@ -824,7 +919,7 @@
                 title,
                 category,
                 filter,
-                imageUrls: [imgPath],
+                imageUrls: currentProjectImages,
                 description,
                 features,
                 techStack,
