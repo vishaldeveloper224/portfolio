@@ -86,7 +86,7 @@ function renderProjects() {
         projectsSlider.innerHTML = `
             <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-secondary);">
                 <i class="fa-solid fa-folder-open" style="font-size: 3rem; margin-bottom: 1rem; display: block; color: var(--accent);"></i>
-                <p>No projects found. Use the Admin Panel to add some!</p>
+                <p>No projects currently available.</p>
             </div>
         `;
         return;
@@ -96,6 +96,16 @@ function renderProjects() {
         const tagHTML = `<span class="project-tag">${project.category || 'Project'}</span>`;
         const imgUrl = (project.imageUrls && project.imageUrls[0]) || 'assets/aerox imaje 1.png';
         const imgHTML = `<img src="${imgUrl}" alt="${project.title}">`;
+
+        let statusBadgeHTML = '';
+        if (project.status) {
+            statusBadgeHTML = `
+                <div class="project-status-badge status-${project.status.type}">
+                    <i class="${project.status.icon || 'fa-solid fa-circle-notch'}"></i>
+                    <span>${project.status.text}</span>
+                </div>
+            `;
+        }
 
         let overlayBtns = '';
         if (project.liveLink) {
@@ -126,6 +136,7 @@ function renderProjects() {
         return `
             <div class="project-card" data-category="${project.filter || 'web'}">
                 <div class="project-img">
+                    ${statusBadgeHTML}
                     ${imgHTML}
                     <div class="project-overlay">
                         ${overlayBtns}
@@ -273,24 +284,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     window.addEventListener('scroll', reveal);
     reveal(); // Trigger on load
-});
-
-// Secret Admin Shortcut: Press Alt + Shift + A OR type "admin" sequentially to open Admin Panel
-let typedKeys = '';
-window.addEventListener('keydown', (e) => {
-    // 1. Key Combination: Alt + Shift + A
-    if (e.altKey && e.shiftKey && e.code === 'KeyA') {
-        e.preventDefault();
-        window.location.href = 'admin.html';
-        return;
-    }
-
-    // 2. Typing sequence: "admin"
-    if (e.key && e.key.length === 1) {
-        typedKeys += e.key.toLowerCase();
-        typedKeys = typedKeys.slice(-5); // Keep last 5 chars
-        if (typedKeys === 'admin') {
-            window.location.href = 'admin.html';
-        }
-    }
 });
